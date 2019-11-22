@@ -15,7 +15,7 @@ public:
     ~ProcessorRegister();
     BinaryNum getValue() { return this->value; };
     void setValue(BinaryNum newValue) { this->value = newValue; }
-    void increment();
+    void increment(); // TODO Implement
 };
 ProcessorRegister::ProcessorRegister()
 {

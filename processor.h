@@ -9,9 +9,9 @@ class Processor
 private:
     Console *console;              // I/O
     Mainstore *mainstore;          // main store of the Baby
-    ProcessorRegister *accumulator;        // stores temporary values
+    ProcessorRegister *accumulator;        // holds results of arithmetic calculations
     ProcessorRegister *currentInstruction; //
-    ProcessorRegister *presentInstruction; // opcode / function
+    ProcessorRegister *presentInstruction; // holds the actual instruction opcode which is being executed during that cycle
 
     void increment();          // increment the current Instruction
     void fetch();              // fetch the line from the main store that the CI is pointing to
@@ -21,7 +21,6 @@ private:
 
     void setAccumulator(BinaryNum newValue);
     BinaryNum getAccumulator();
-
 
 public:
     Processor();
@@ -47,14 +46,20 @@ Processor::Processor()
 Processor::~Processor()
 {
     delete console;
+    delete mainstore;
+    delete accumulator;
+    delete currentInstruction;
+    delete presentInstruction;
 }
 
 void Processor::run()
 {
 }
 
-void Processor::increment() {}          // increment the current Instruction
-void Processor::fetch() {}              // fetch the line from the main store that the CI is pointing to
+void Processor::increment() {
+    currentInstruction->increment();
+}          // increment the current Instruction
+void Processor::fetch() {}              // fetch the line from the main store that the CI is pointing to, store in PI
 void Processor::decodeOperandFetch() {} // decodes the line
 void Processor::execute() {
 }            // execute the command

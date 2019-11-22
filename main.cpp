@@ -19,6 +19,7 @@ int main(int argc, char** argv) {
     
 
     // read in file
+    // ignore everything behind = or ;
 
     // set content of memory to the input file
 
