@@ -5,7 +5,15 @@
 using namespace std;
 
 int main() {
-    BinaryNum a("101");
+    // BinaryNum wrong1("102");
+    BinaryNum a("01110000");
     BinaryNum b("100");
-    cout << a + b << endl;    
+    BinaryNum c("01001111");
+    cout << a + b << endl;
+    cout << a + c << endl;
+    // cout << b.convertToDec() << endl; 
+    // cout << c.convertToDec() << endl;     
+    // cout << BinaryNum.add(a,b);
+    // cout << a.complement() << endl;
+    cout << c.complement() << " " << c.convertToDec() << endl;
 }
