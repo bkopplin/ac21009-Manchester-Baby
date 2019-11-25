@@ -3,6 +3,7 @@
 #include "mainstore.h"
 #include "binarynum.h"
 #include "processorregister.h"
+#include <string.h>
 
 class Processor
 {
@@ -52,15 +53,52 @@ Processor::~Processor()
     delete presentInstruction;
 }
 
+//
 void Processor::run()
 {
+
 }
 
-void Processor::increment() {
+// increment the current Instruction
+void Processor::increment() 
+{
     currentInstruction->increment();
-}          // increment the current Instruction
-void Processor::fetch() {}              // fetch the line from the main store that the CI is pointing to, store in PI
-void Processor::decodeOperandFetch() {} // decodes the line
-void Processor::execute() {
-}            // execute the command
-void Processor::display() {}
+} 
+
+// fetch the line from the main store that the CI is pointing to, store in PI
+void Processor::fetch() 
+{
+    BinaryNum line;
+    
+    int location;
+    location = currentInstruction->convertToDecimal();
+
+    line = mainstore->getLine(location);
+    presentInstruction->setValue(line);
+}              
+
+// decodes the line
+void Processor::decodeOperandFetch() 
+{
+    BinaryNum lineToDecode;
+    lineToDecode = presentInstruction->getValue();
+    
+    //get substring 0-4 and 13-15
+    string operand;
+    string opcode;
+
+    operand = lineToDecode.getValue().substr(0, 5);
+    opcode = lineToDecode.getValue().substr(13, 3);
+} 
+
+// execute the command
+void Processor::execute()
+{
+
+}  
+
+
+void Processor::display() 
+{
+
+}

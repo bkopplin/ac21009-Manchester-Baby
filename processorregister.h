@@ -25,6 +25,13 @@ ProcessorRegister::ProcessorRegister()
 
 ProcessorRegister::~ProcessorRegister()
 {
+
+}
+
+// increment the CI to point to the next item in the array
+void increment()
+{
+
 }
 
 #endif

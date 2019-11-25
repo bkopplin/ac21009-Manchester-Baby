@@ -15,6 +15,7 @@ public:
     void setValue(string value);
     void negate(); // same as multiplying the number by -1
     BinaryNum operator+(const BinaryNum &other);
+    string getValue() {return value;};
     // BinaryNum operator-(const BinaryNum &other);
 
     int convertToDec();
