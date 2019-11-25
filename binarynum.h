@@ -13,6 +13,7 @@ public:
     BinaryNum();
     explicit BinaryNum(string value);
     void setValue(string value);
+    string getValue() { return value; };
     BinaryNum complement(); // same as multiplying the number by -1
     BinaryNum operator+(const BinaryNum &other);
     BinaryNum operator-(const BinaryNum &other);
