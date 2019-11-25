@@ -22,21 +22,27 @@ public:
     void setLine(int location, BinaryNum content);
 };
 
-Mainstore::Mainstore() {
+Mainstore::Mainstore() 
+{
     size = 32;
     // ALTERNATIVE: grid = new vector<BinaryNum>(32);
     grid = new BinaryNum[size];
     
 }
-Mainstore::Mainstore(int store_size) {
+
+Mainstore::Mainstore(int store_size) 
+{
     size = store_size;
     grid = new BinaryNum[size];
 }
-Mainstore::~Mainstore() {
+
+Mainstore::~Mainstore() 
+{
 
 }
 
-BinaryNum Mainstore::getLine(int location) {
+BinaryNum Mainstore::getLine(int location) 
+{
     if (location < 1 || location > size -1 ) {
         cerr << "Error: out of bounds when accessing a memory location of main store" << endl;
         throw -1; // out of bounds
@@ -44,7 +50,8 @@ BinaryNum Mainstore::getLine(int location) {
     return grid[location];
 }
 
-void Mainstore::setLine(int location, BinaryNum newNumber) {
+void Mainstore::setLine(int location, BinaryNum newNumber) 
+{
     if (location < 1 || location > size -1 ) {
         cerr << "Error: out of bounds when accessing a memory location of main store" << endl;
         throw -1; // out of bounds
