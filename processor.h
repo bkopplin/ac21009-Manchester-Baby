@@ -69,10 +69,7 @@ void Processor::increment()
 void Processor::fetch() 
 {
     BinaryNum line;
-    
-    int location;
-    
-    //location = currentInstruction->convertToDecimal();
+    int location = controlInstruction->getValue().convertToDec();
 
     line = mainstore->getLine(location);
     presentInstruction->setValue(line);
@@ -88,26 +85,26 @@ void Processor::decodeOperandFetch()
     BinaryNum operand(lineToDecode.getValue().substr(0, 5));
     BinaryNum opcode(lineToDecode.getValue().substr(13, 3));
 
+    // TODO store where?
+    
     // store operand and opcode
-
-    // TODO where operand?
-    presentInstruction->setValue(opcode);
-    controlInstruction->setValue(operand);
+    // accumulator->setValue(operand);
+    // presentInstruction->setValue(opcode);
 } 
 
 // execute the command
 void Processor::execute()
 {
+    // TODO get operand and opcode 
+
     BinaryNum opcode(presentInstruction->getValue());
-    BinaryNum operand(controlInstruction->getValue());
     string instruction = opcode.getValue();
-    //int location = mainstore->getLine().getDecimal();
+    int location = controlInstruction->getValue().convertToDec();
 
     if(instruction == "000") // set CI to content of store location
     {
-        // // CI = S
-        // // TODO get location in mainstore as decimal
-        // controlInstruction->setValue(mainstore->getLine(location));
+        // CI = S
+        controlInstruction->setValue(mainstore->getLine(location));
     }
     else if(instruction == "100") // add content of store location to CI
     {
@@ -116,21 +113,19 @@ void Processor::execute()
     }
     else if(instruction == "010") // load accumulator with negative form of store content
     {
-        // // A = -S
+        // A = -S
+
         // TODO get negative content of store
-        // accumulator->setValue(mainstore->getLine(location))
+        accumulator->setValue(mainstore->getLine(location))
     }
     else if(instruction == "110") // copy accumulator to store location
     {
-        // // S = A
-        // int location = 0; // TODO location = operand
-        // int location = controlInstruction->getValue().getDecimal();
-        // mainstore->setLine(location, accumulator->getValue())
+        // S = A
+        mainstore->setLine(location, accumulator->getValue());
     }
     else if(instruction == "001") // subtract content of store location from accumulator
     {
         // // A = A - S
-        // int location = 0;
         // accumulator->setValue(accumulator->getValue() - mainstore->getLine(location));
     }
     else if(opcode.getValue() == "101") // as previous
@@ -147,7 +142,7 @@ void Processor::execute()
     }
     else if(instruction == "111") // set stop lamp and halt machine
     {
-        
+        cout << "Stopped" << endl;
     }
     else
     {
