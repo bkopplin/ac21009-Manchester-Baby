@@ -51,7 +51,7 @@ string newValue = "";
         {
             if (value[i] != ' ')
             {
-                cerr << "BinaryNum can only contain characters 1 and 0, however " << value << " contains other characters" << endl;
+                cerr << "BinaryNum can only contain characters 1 and 0, however " << value[i] << " contains other characters" << endl;
                 return;
             }
         }

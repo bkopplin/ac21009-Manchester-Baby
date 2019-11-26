@@ -132,6 +132,8 @@ void Processor::execute(BinaryNum operand, BinaryNum opcode)
     string instruction = opcode.getValue();
     int location = operand.convertToDec();
 
+    cout << "Instruction " << instruction << endl;
+
     if (instruction == "000") // set CI to content of store location
     {
         // CI = S
