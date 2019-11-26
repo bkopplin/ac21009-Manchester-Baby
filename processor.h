@@ -25,6 +25,7 @@ private:
     void execute(BinaryNum, BinaryNum);            // execute the command
     void display();
 
+    bool keepGoing = true;
     void showState(string);
     void setAccumulator(BinaryNum newValue);
     BinaryNum getAccumulator();
@@ -80,11 +81,11 @@ void Processor::showState(string state)
 void Processor::run()
 {
     int i = 0;
-    bool keepGoing = true;
+
     do
     {
-        cout << "----------"
-             << "iteration " << i
+        cout << "----------" << endl
+             << "\x1B[32mIteration: " << i << "\033[0m\t\t" << endl
              << "----------" << endl;
         increment();
         showState("increment");
@@ -96,6 +97,9 @@ void Processor::run()
         showState("display");
     i++;
     } while (keepGoing);
+    cout << "done" << endl;
+    cout << *mainstore << endl;
+
 }
 
 // increment the current Instruction
@@ -121,7 +125,7 @@ void Processor::decodeOperandFetch()
     lineToDecode = presentInstruction->getValue();
 
     //get substring 0-4 and 13-15
-    BinaryNum operand(lineToDecode.getValue().substr(0, 5));
+    BinaryNum operand(lineToDecode.getValue().substr(0, 13));
     BinaryNum opcode(lineToDecode.getValue().substr(13, 3));
     execute(operand, opcode);
 }
@@ -174,7 +178,7 @@ void Processor::execute(BinaryNum operand, BinaryNum opcode)
     }
     else if (instruction == "111") // set stop lamp and halt machine
     {
-        cout << "Stopped" << endl;
+        keepGoing = false;
     }
     else
     {
