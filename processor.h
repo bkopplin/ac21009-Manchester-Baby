@@ -1,3 +1,6 @@
+#ifndef PROCESSOR_H
+#define PROCESSOR_H
+
 #include <iostream>
 #include "console.h"
 #include "mainstore.h"
@@ -38,7 +41,7 @@ public:
 Processor::Processor()
 {
     console = new Console();
-    mainstore = new Mainstore();
+    mainstore = new Mainstore(32);
     accumulator = new ProcessorRegister();
     controlInstruction = new ProcessorRegister();
     presentInstruction = new ProcessorRegister();
@@ -116,7 +119,7 @@ void Processor::execute()
         // A = -S
 
         // TODO get negative content of store
-        accumulator->setValue(mainstore->getLine(location))
+        accumulator->setValue(mainstore->getLine(location));
     }
     else if(instruction == "110") // copy accumulator to store location
     {
@@ -156,3 +159,5 @@ void Processor::display()
 {
 
 }
+
+#endif

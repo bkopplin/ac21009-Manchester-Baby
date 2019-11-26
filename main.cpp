@@ -1,4 +1,6 @@
 #include "processor.h"
+#include <iostream>
+#include "BabyManager.hpp"
 
 using namespace std;
 
@@ -12,18 +14,11 @@ int main(int argc, char** argv) {
         usageMessage();
         return 1;
     }
+    
     string inputfile = argv[1];
-    Processor processor;
-
-
-    
-
-    // read in file
-    // ignore everything behind = or ;
-
-    // set content of memory to the input file
-
-    // run fetch execute cycle until halted
-    
+    BabyManager manager;
+    manager.loadProgram(inputfile);
+    manager.startSimulation();
+ 
     return 0;
 }

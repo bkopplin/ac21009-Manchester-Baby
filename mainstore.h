@@ -52,7 +52,7 @@ BinaryNum Mainstore::getLine(int location)
 
 void Mainstore::setLine(int location, BinaryNum newNumber) 
 {
-    if (location < 1 || location > size -1 ) {
+    if (location < 0 || location > size -1 ) {
         cerr << "Error: out of bounds when accessing a memory location of main store" << endl;
         throw -1; // out of bounds
     }
