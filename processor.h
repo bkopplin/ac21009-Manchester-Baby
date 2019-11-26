@@ -74,11 +74,11 @@ void Processor::run()
         else if (cin.get() == '\n')
         {
             cout << *this << endl;
-            // increment();
-            // fetch();
-            // decodeOperandFetch();
-            // execute();
-            // display();
+            increment();
+            fetch();
+            decodeOperandFetch();
+            //execute();
+            display();
         }
     } while (keepGoing);
 }
