@@ -29,7 +29,7 @@ public:
             {
                 output << " ";
             }
-            output << i << " " << s.grid[i].getValue() << endl;
+            output << i << " " << s.grid[i] << endl;
             ;
         }
         return output;

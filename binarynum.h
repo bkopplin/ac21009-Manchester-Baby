@@ -2,6 +2,7 @@
 #define BINARYNUM_H
 #include <string>
 #include <math.h>
+#include <iostream>
 
 using namespace std;
 
@@ -22,7 +23,15 @@ public:
 
     friend ostream &operator<<(ostream &output, const BinaryNum &n)
     {
-        output << n.value;
+        size_t i = 0;
+        do{
+            if (i % 4 == 0) {
+                output << ' ';
+            }
+            output << n.value[i];
+            i++;
+        } while ( i < n.value.size());
+        // output << n.value;
         return output;
     }
 };
