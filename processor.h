@@ -25,6 +25,7 @@ private:
     void execute();            // execute the command
     void display();
 
+    void showState(string);
     void setAccumulator(BinaryNum newValue);
     BinaryNum getAccumulator();
 
@@ -61,25 +62,39 @@ Processor::~Processor()
     delete presentInstruction;
 }
 
+void Processor::showState(string state)
+{
+    cout << "current task: " << state << endl;
+    cout << *this << endl;
+    char c = cin.get();
+    if (c == 's')
+    {
+        cout << *mainstore << endl;
+    }
+    else
+    {
+    }
+}
+
 //
 void Processor::run()
 {
+    int i = 0;
     bool keepGoing = true;
     do
     {
-        if (cin.get() == 's')
-        {
-            cout << *mainstore << endl;
-        }
-        else if (cin.get() == '\n')
-        {
-            cout << *this << endl;
-            // increment();
-            // fetch();
-            // decodeOperandFetch();
-            // execute();
-            // display();
-        }
+        cout << "----------"
+             << "iteration " << i
+             << "----------" << endl;
+        increment();
+        showState("increment");
+        fetch();
+        showState("fetch");
+        decodeOperandFetch();
+        showState("decode and operand fetch");
+        display();
+        showState("display");
+    i++;
     } while (keepGoing);
 }
 
