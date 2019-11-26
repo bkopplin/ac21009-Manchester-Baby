@@ -10,7 +10,7 @@ using namespace std;
 class Mainstore
 {
 private:
-int size;
+    int size;
     // ALTERNATIVE: vector<BinaryNum> *grid;
     BinaryNum *grid;
 
@@ -20,41 +20,55 @@ public:
     explicit Mainstore(int size);
     BinaryNum getLine(int location);
     void setLine(int location, BinaryNum content);
+
+    friend ostream &operator<<(ostream &output, const Mainstore &s)
+    {
+        for (int i = 0; i < s.size; i++)
+        {
+            if (i < 10)
+            {
+                output << " ";
+            }
+            output << i << " " << s.grid[i].getValue() << endl;
+            ;
+        }
+        return output;
+    }
 };
 
-Mainstore::Mainstore() 
+Mainstore::Mainstore()
 {
     size = 32;
     // ALTERNATIVE: grid = new vector<BinaryNum>(32);
     grid = new BinaryNum[size];
-    
 }
 
-Mainstore::Mainstore(int store_size) 
+Mainstore::Mainstore(int store_size)
 {
     size = store_size;
     grid = new BinaryNum[size];
 }
 
-Mainstore::~Mainstore() 
+Mainstore::~Mainstore()
 {
-
 }
 
-BinaryNum Mainstore::getLine(int location) 
+BinaryNum Mainstore::getLine(int location)
 {
-    if (location < 1 || location > size -1 ) {
+    if (location < 1 || location > size - 1)
+    {
         cerr << "Error: out of bounds when accessing a memory location of main store" << endl;
-        throw -1; // out of bounds
+        throw - 1; // out of bounds
     }
     return grid[location];
 }
 
-void Mainstore::setLine(int location, BinaryNum newNumber) 
+void Mainstore::setLine(int location, BinaryNum newNumber)
 {
-    if (location < 0 || location > size -1 ) {
+    if (location < 0 || location > size - 1)
+    {
         cerr << "Error: out of bounds when accessing a memory location of main store" << endl;
-        throw -1; // out of bounds
+        throw - 1; // out of bounds
     }
 
     grid[location] = newNumber;

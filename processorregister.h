@@ -20,7 +20,7 @@ public:
 
 ProcessorRegister::ProcessorRegister()
 {
-    BinaryNum num("0");
+    BinaryNum num("0000 0000 0000 0000 0000 0000 0000 0000");
     this->value = num;
 }
 

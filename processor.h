@@ -8,11 +8,13 @@
 #include "processorregister.h"
 #include <string.h>
 
+using namespace std;
+
 class Processor
 {
 private:
-    Console *console;              // I/O
-    Mainstore *mainstore;          // main store of the Baby
+    Console *console;                      // I/O
+    Mainstore *mainstore;                  // main store of the Baby
     ProcessorRegister *accumulator;        // holds results of arithmetic calculations
     ProcessorRegister *controlInstruction; //
     ProcessorRegister *presentInstruction; // holds the actual instruction opcode which is being executed during that cycle
@@ -30,12 +32,15 @@ public:
     Processor();
     ~Processor();
     void run();
-    Mainstore * getMainStore() { return mainstore;}
+    Mainstore *getMainStore() { return mainstore; }
 
-    // friend ostream operator<<(ostream &output, const Processor p) {
-    //     output << "TODO: implement" << endl;
-    //     return output;
-    // }
+    friend ostream &operator<<(ostream &output, const Processor &p)
+    {
+        output << "Accumulator: \t\t" << p.accumulator->getValue() << endl
+               << "Control Instruction: \t" << p.controlInstruction->getValue() << endl
+               << "Present Instruction: \t" << p.presentInstruction->getValue() << endl;
+        return output;
+    }
 };
 
 Processor::Processor()
@@ -59,83 +64,99 @@ Processor::~Processor()
 //
 void Processor::run()
 {
-
+    bool keepGoing = true;
+    do
+    {
+        if (cin.get() == 's')
+        {
+            cout << *mainstore << endl;
+        }
+        else if (cin.get() == '\n')
+        {
+            cout << *this << endl;
+            // increment();
+            // fetch();
+            // decodeOperandFetch();
+            // execute();
+            // display();
+        }
+    } while (keepGoing);
 }
 
 // increment the current Instruction
-void Processor::increment() 
+void Processor::increment()
 {
     controlInstruction->increment();
-} 
+}
 
 // fetch the line from the main store that the CI is pointing to, store in PI
-void Processor::fetch() 
+void Processor::fetch()
 {
     BinaryNum line;
     int location = controlInstruction->getValue().convertToDec();
 
     line = mainstore->getLine(location);
     presentInstruction->setValue(line);
-}              
+}
 
 // decodes the line
-void Processor::decodeOperandFetch() 
+void Processor::decodeOperandFetch()
 {
     BinaryNum lineToDecode;
     lineToDecode = presentInstruction->getValue();
-    
+
     //get substring 0-4 and 13-15
     BinaryNum operand(lineToDecode.getValue().substr(0, 5));
     BinaryNum opcode(lineToDecode.getValue().substr(13, 3));
 
     // TODO store where?
-    
+
     // store operand and opcode
     // accumulator->setValue(operand);
     // presentInstruction->setValue(opcode);
-} 
+}
 
 // execute the command
 void Processor::execute()
 {
-    // TODO get operand and opcode 
+    // TODO get operand and opcode
 
     BinaryNum opcode(presentInstruction->getValue());
     string instruction = opcode.getValue();
     int location = controlInstruction->getValue().convertToDec();
 
-    if(instruction == "000") // set CI to content of store location
+    if (instruction == "000") // set CI to content of store location
     {
         // CI = S
         controlInstruction->setValue(mainstore->getLine(location));
     }
-    else if(instruction == "100") // add content of store location to CI
+    else if (instruction == "100") // add content of store location to CI
     {
         // // CI = CI + S
         // controlInstruction->setValue();
     }
-    else if(instruction == "010") // load accumulator with negative form of store content
+    else if (instruction == "010") // load accumulator with negative form of store content
     {
         // A = -S
 
         // TODO get negative content of store
         accumulator->setValue(mainstore->getLine(location));
     }
-    else if(instruction == "110") // copy accumulator to store location
+    else if (instruction == "110") // copy accumulator to store location
     {
         // S = A
         mainstore->setLine(location, accumulator->getValue());
     }
-    else if(instruction == "001") // subtract content of store location from accumulator
+    else if (instruction == "001") // subtract content of store location from accumulator
     {
         // // A = A - S
         // accumulator->setValue(accumulator->getValue() - mainstore->getLine(location));
     }
-    else if(opcode.getValue() == "101") // as previous
+    else if (opcode.getValue() == "101") // as previous
     {
-        // 
+        //
     }
-    else if(instruction == "011") // increment CI if accumulator value negative 
+    else if (instruction == "011") // increment CI if accumulator value negative
     {
         // // if A < 0 then CI = CI + 1
         // if(accumulator->getValue() < 0)
@@ -143,7 +164,7 @@ void Processor::execute()
         //     increment();
         // }
     }
-    else if(instruction == "111") // set stop lamp and halt machine
+    else if (instruction == "111") // set stop lamp and halt machine
     {
         cout << "Stopped" << endl;
     }
@@ -151,13 +172,10 @@ void Processor::execute()
     {
         cout << "Error" << endl;
     }
-    
-}  
+}
 
-
-void Processor::display() 
+void Processor::display()
 {
-
 }
 
 #endif
