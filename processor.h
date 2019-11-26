@@ -22,7 +22,7 @@ private:
     void increment();          // increment the current Instruction
     void fetch();              // fetch the line from the main store that the CI is pointing to
     void decodeOperandFetch(); // decodes the line
-    void execute();            // execute the command
+    void execute(BinaryNum, BinaryNum);            // execute the command
     void display();
 
     void showState(string);
@@ -123,22 +123,14 @@ void Processor::decodeOperandFetch()
     //get substring 0-4 and 13-15
     BinaryNum operand(lineToDecode.getValue().substr(0, 5));
     BinaryNum opcode(lineToDecode.getValue().substr(13, 3));
-
-    // TODO store where?
-
-    // store operand and opcode
-    // accumulator->setValue(operand);
-    // presentInstruction->setValue(opcode);
+    execute(operand, opcode);
 }
 
 // execute the command
-void Processor::execute()
+void Processor::execute(BinaryNum operand, BinaryNum opcode)
 {
-    // TODO get operand and opcode
-
-    BinaryNum opcode(presentInstruction->getValue());
     string instruction = opcode.getValue();
-    int location = controlInstruction->getValue().convertToDec();
+    int location = operand.convertToDec();
 
     if (instruction == "000") // set CI to content of store location
     {
@@ -148,14 +140,12 @@ void Processor::execute()
     else if (instruction == "100") // add content of store location to CI
     {
         // // CI = CI + S
-        // controlInstruction->setValue();
+        controlInstruction->setValue(controlInstruction->getValue() + mainstore->getLine(location));
     }
     else if (instruction == "010") // load accumulator with negative form of store content
     {
         // A = -S
-
-        // TODO get negative content of store
-        accumulator->setValue(mainstore->getLine(location));
+        accumulator->setValue(mainstore->getLine(location).complement());
     }
     else if (instruction == "110") // copy accumulator to store location
     {
@@ -164,20 +154,21 @@ void Processor::execute()
     }
     else if (instruction == "001") // subtract content of store location from accumulator
     {
-        // // A = A - S
-        // accumulator->setValue(accumulator->getValue() - mainstore->getLine(location));
+        // A = A - S
+        accumulator->setValue(accumulator->getValue() - mainstore->getLine(location));
     }
     else if (opcode.getValue() == "101") // as previous
     {
-        //
+        // A = A - S
+        accumulator->setValue(accumulator->getValue() - mainstore->getLine(location));
     }
     else if (instruction == "011") // increment CI if accumulator value negative
     {
-        // // if A < 0 then CI = CI + 1
-        // if(accumulator->getValue() < 0)
-        // {
-        //     increment();
-        // }
+        // if A < 0 then CI = CI + 1
+        if(accumulator->getValue().isNegative())
+        {
+            increment();
+        }
     }
     else if (instruction == "111") // set stop lamp and halt machine
     {
