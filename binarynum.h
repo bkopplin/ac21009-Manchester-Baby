@@ -29,11 +29,16 @@ public:
 
 BinaryNum::BinaryNum()
 {
-    value = "0";
+    value = "00000000000000000000000000000000"; // 32
 }
 
 BinaryNum::BinaryNum(string value)
 {
+    setValue(value);
+}
+
+void BinaryNum::setValue(string value) {
+string newValue = "";
     if (value.size() == 0)
     {
         this->value = "0";
@@ -44,12 +49,18 @@ BinaryNum::BinaryNum(string value)
     {
         if (value[i] != '1' && value[i] != '0')
         {
-            cerr << "BinaryNum can only contain characters 1 and 0, however " << value << " contains other characters" << endl;
-            return;
+            if (value[i] != ' ')
+            {
+                cerr << "BinaryNum can only contain characters 1 and 0, however " << value << " contains other characters" << endl;
+                return;
+            }
+        }
+        else
+        {
+            newValue += value[i];
         }
     }
-    // TODO check for valid characters and length
-    this->value = value;
+    this->value = newValue;
 }
 
 int BinaryNum::convertToDec()
@@ -60,11 +71,10 @@ int BinaryNum::convertToDec()
     // handle negative numbers
     if (number.back() == '1')
     {
-        sign = -1; 
+        sign = -1;
         BinaryNum b(number);
         b = b.complement();
         number = b.value;
-        cout << endl << number << " (number" << endl;
     }
     int factor = 1;
     for (size_t i = 0; i < number.size(); ++i)
@@ -97,10 +107,14 @@ BinaryNum BinaryNum::complement()
     return temp + o;
 }
 
-bool BinaryNum::isNegative() {
-    if (value.back() == '1') {
+bool BinaryNum::isNegative()
+{
+    if (value.back() == '1')
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -177,10 +191,10 @@ BinaryNum BinaryNum::operator+(const BinaryNum &other)
             }
         }
     }
-    if (c == "1")
-    {
-        sum += c;
-    }
+    // if (c == "1")
+    // {
+    //     sum += c;
+    // }
 
     BinaryNum result(sum);
     return result;

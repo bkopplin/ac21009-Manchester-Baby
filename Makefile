@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-Wall -Wextra -g
-HEADERS=binarynum.h console.h processor.h mainstore.h processorregister.h
+HEADERS=binarynum.h console.h processor.h mainstore.h processorregister.h BabyManager.hpp
 
 
 main: main.cpp $(HEADERS)

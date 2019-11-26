@@ -17,21 +17,22 @@ public:
     void setValue(BinaryNum newValue) { this->value = newValue; }
     void increment(); // TODO Implement
 };
+
 ProcessorRegister::ProcessorRegister()
 {
-    BinaryNum num("0");
+    BinaryNum num("0000 0000 0000 0000 0000 0000 0000 0000");
     this->value = num;
 }
 
 ProcessorRegister::~ProcessorRegister()
 {
-
 }
 
 // increment the CI to point to the next item in the array
-void increment()
+void ProcessorRegister::increment()
 {
-
+    BinaryNum one("1000 0000 0000 0000 0000 0000 0000 0000");
+    this->value = this->value + one;
 }
 
 #endif

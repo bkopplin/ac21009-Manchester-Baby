@@ -1,29 +1,34 @@
 #include "processor.h"
+#include <iostream>
+#include "BabyManager.hpp"
 
 using namespace std;
 
-void usageMessage() {
+void usageMessage()
+{
     cerr << "USAGE: <inputfile>" << endl;
 }
 
-int main(int argc, char** argv) {
+void welcomeMessage()
+{
+    cout << "press 'Enter' to go to the next step, 's' to see the store"
+         << endl;
+}
 
-    if (argc != 2) {
+int main(int argc, char **argv)
+{
+
+    if (argc != 2)
+    {
         usageMessage();
         return 1;
     }
+    welcomeMessage();
+
     string inputfile = argv[1];
-    Processor processor;
+    BabyManager manager;
+    manager.loadProgram(inputfile);
+    manager.startSimulation();
 
-
-    
-
-    // read in file
-    // ignore everything behind = or ;
-
-    // set content of memory to the input file
-
-    // run fetch execute cycle until halted
-    
     return 0;
 }
