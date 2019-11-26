@@ -82,8 +82,7 @@ void Processor::run()
 {
     int i = 0;
 
-    do
-    {
+    do {
         cout << "----------" << endl
              << "\x1B[32mIteration: " << i << "\033[0m\t\t" << endl
              << "----------" << endl;
@@ -95,11 +94,12 @@ void Processor::run()
         showState("decode and operand fetch");
         display();
         showState("display");
-    i++;
+        i++;
+
     } while (keepGoing);
+
     cout << "done" << endl;
     cout << *mainstore << endl;
-
 }
 
 // increment the current Instruction
@@ -124,7 +124,7 @@ void Processor::decodeOperandFetch()
     BinaryNum lineToDecode;
     lineToDecode = presentInstruction->getValue();
 
-    //get substring 0-4 and 13-15
+    //get substring 0-12 and 13-15
     BinaryNum operand(lineToDecode.getValue().substr(0, 13));
     BinaryNum opcode(lineToDecode.getValue().substr(13, 3));
     execute(operand, opcode);
@@ -136,58 +136,66 @@ void Processor::execute(BinaryNum operand, BinaryNum opcode)
     string instruction = opcode.getValue();
     int location = operand.convertToDec();
 
-    cout << "Instruction " << instruction << endl;
+    cout << "Instruction: " << instruction;
 
-    if (instruction == "000") // set CI to content of store location
+    if (instruction == "000") // JMP - set CI to content of store location
     {
+        cout << " -> JMP" << endl;
         // CI = S
         controlInstruction->setValue(mainstore->getLine(location));
     }
-    else if (instruction == "100") // add content of store location to CI
+    else if (instruction == "100") // JRP - add content of store location to CI
     {
-        // // CI = CI + S
+        cout << " -> JRP" << endl;
+        // CI = CI + S
         controlInstruction->setValue(controlInstruction->getValue() + mainstore->getLine(location));
     }
-    else if (instruction == "010") // load accumulator with negative form of store content
+    else if (instruction == "010") //  LDN -load accumulator with negative form of store content
     {
+        cout << " -> LDN" << endl;
         // A = -S
         accumulator->setValue(mainstore->getLine(location).complement());
     }
-    else if (instruction == "110") // copy accumulator to store location
+    else if (instruction == "110") // STO - copy accumulator to store location
     {
+        cout << " -> STO" << endl;
         // S = A
         mainstore->setLine(location, accumulator->getValue());
     }
-    else if (instruction == "001") // subtract content of store location from accumulator
+    else if (instruction == "001") // SUB - subtract content of store location from accumulator
     {
+        cout << " -> SUB" << endl;
         // A = A - S
         accumulator->setValue(accumulator->getValue() - mainstore->getLine(location));
     }
-    else if (opcode.getValue() == "101") // as previous
+    else if (opcode.getValue() == "101") // SUB - as previous
     {
+        cout << " -> SUB" << endl;
         // A = A - S
         accumulator->setValue(accumulator->getValue() - mainstore->getLine(location));
     }
-    else if (instruction == "011") // increment CI if accumulator value negative
+    else if (instruction == "011") // CMP - increment CI if accumulator value negative
     {
+        cout << " -> CMP" << endl;
         // if A < 0 then CI = CI + 1
         if(accumulator->getValue().isNegative())
         {
             increment();
         }
     }
-    else if (instruction == "111") // set stop lamp and halt machine
+    else if (instruction == "111") // STP - set stop lamp and halt machine
     {
+        cout << " -> STP" << endl;
         keepGoing = false;
     }
-    else
-    {
+    else {
         cout << "Error" << endl;
     }
 }
 
 void Processor::display()
 {
+
 }
 
 #endif
