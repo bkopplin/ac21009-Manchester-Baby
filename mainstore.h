@@ -30,7 +30,6 @@ public:
                 output << " ";
             }
             output << i << " " << s.grid[i] << endl;
-            ;
         }
         return output;
     }
