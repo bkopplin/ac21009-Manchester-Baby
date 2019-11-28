@@ -50,4 +50,16 @@ int main()
     cout << a.convertToDec() << endl;
     cout << b.convertToDec() << endl;
     cout << (a*b).convertToDec() << endl; // = 784
+
+    BinaryNum c("00011100000"); // 56
+    BinaryNum d("01001111111"); // -14
+    cout << c.convertToDec() << endl;
+    cout << d.convertToDec() << endl;
+    cout << (c*d).convertToDec() << endl; // = 784
+
+    BinaryNum e("00010011"); // -56
+    BinaryNum f("01001111111"); // -14
+    cout << e.convertToDec() << endl;
+    cout << f.convertToDec() << endl;
+    cout << (e*f).convertToDec() << endl; // = 784
 }
