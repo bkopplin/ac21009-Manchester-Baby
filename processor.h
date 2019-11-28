@@ -106,8 +106,8 @@ void Processor::run()
 
     cout << *mainstore << endl;
     cout << "--------------------------------" << endl << endl;
-    cout << "\t Result: " << accumulator->getValue().convertToDec() << endl << endl;
-    cout << "\t (" << accumulator->getValue() << ")" << endl << endl;
+    //cout << "\t Result: " << accumulator->getValue().convertToDec() << endl << endl;
+    cout << "\t Result: " << accumulator->getValue() << endl << endl;
     cout << "--------------------------------" << endl;
 }
 

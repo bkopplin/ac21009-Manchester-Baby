@@ -22,8 +22,8 @@ public:
     BinaryNum operator-(const BinaryNum &other);
     BinaryNum operator*(const BinaryNum &other);
     bool isNegative();
-    int convertToDec();
-    BinaryNum convertToBinary(int);
+    long long convertToDec();
+    BinaryNum convertToBinary(long long decimal);
 
     friend ostream &operator<<(ostream &output, const BinaryNum &n)
     {
@@ -75,18 +75,20 @@ string newValue = "";
     this->value = newValue;
 }
 
-BinaryNum BinaryNum::convertToBinary(int decimal)
+BinaryNum BinaryNum::convertToBinary(long long decimal)
 {
+    // TODO: change bit size
+
     BinaryNum result;
-    string binary = bitset<32>(decimal).to_string();
+    string binary = bitset<64>(decimal).to_string();
     reverse(binary.begin(), binary.end());
     result.setValue(binary);
     return result;
 }
 
-int BinaryNum::convertToDec()
+long long BinaryNum::convertToDec()
 {
-    int sum = 0;
+    long long sum = 0;
     int sign = 1;
     string number = value;
     // handle negative numbers
@@ -97,12 +99,14 @@ int BinaryNum::convertToDec()
         b = b.complement();
         number = b.value;
     }
-    int factor = 1;
+    long long factor = 1;
     for (size_t i = 0; i < number.size(); ++i)
     {
         sum += (number[i] - '0') * factor;
+        cout << sum << " " << number[i] << " " <<  factor << endl;
         factor *= 2;
     }
+    cout << endl;
     return sum * sign;
 }
 
@@ -233,10 +237,10 @@ BinaryNum BinaryNum::operator*(const BinaryNum &other)
     BinaryNum t(this->value);
     BinaryNum o(other.value);
 
-    int tDec = t.convertToDec();
-    int oDec = o.convertToDec();
+    long long tDec = t.convertToDec();
+    long long oDec = o.convertToDec();
 
-    int result = tDec * oDec;
+    long long result = tDec * oDec;
     BinaryNum binResult = convertToBinary(result);
     return binResult;
 }
