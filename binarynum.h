@@ -5,6 +5,8 @@
 #include <iostream>
 #include <bitset>
 #include <algorithm>
+#include "config.hpp"
+
 
 using namespace std;
 
@@ -78,9 +80,10 @@ string newValue = "";
 BinaryNum BinaryNum::convertToBinary(long long decimal)
 {
     // TODO: change bit size
-
+    const int setsize = 64;
+   
     BinaryNum result;
-    string binary = bitset<64>(decimal).to_string();
+    string binary = bitset<setsize>(decimal).to_string();
     reverse(binary.begin(), binary.end());
     result.setValue(binary);
     return result;
