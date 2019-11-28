@@ -118,8 +118,8 @@ cout << "   \x1B[41m     \033[0m\t\t" << endl;
 cout << "  \x1B[41m  HALT \033[0m\t\t" << endl;
 
     cout << "--------------------------------" << endl << endl;
-    cout << "\t Result: " << accumulator->getValue().convertToDec() << endl << endl;
-    cout << "\t (" << accumulator->getValue() << ")" << endl << endl;
+    //cout << "\t Result: " << accumulator->getValue().convertToDec() << endl << endl;
+    cout << "\t Result: " << accumulator->getValue() << endl << endl;
     cout << "--------------------------------" << endl;
 }
 

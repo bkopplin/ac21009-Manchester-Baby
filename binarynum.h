@@ -5,6 +5,8 @@
 #include <iostream>
 #include <bitset>
 #include <algorithm>
+#include "config.hpp"
+
 
 using namespace std;
 /**
@@ -26,8 +28,8 @@ public:
     BinaryNum operator-(const BinaryNum &other);
     BinaryNum operator*(const BinaryNum &other);
     bool isNegative();
-    int convertToDec();
-    BinaryNum convertToBinary(int);
+    long long convertToDec();
+    BinaryNum convertToBinary(long long decimal);
 
     friend ostream &operator<<(ostream &output, const BinaryNum &n)
     {
@@ -96,15 +98,19 @@ void BinaryNum::setValue(string value)
     this->value = newValue;
 }
 
+
 /**
  * calculates a binary number in 2's complement form from the decimal that is passed as an argument
  * @param decimal the decimal number to be converted
  * @return the converted decimal number as a BinaryNum
  */
-BinaryNum BinaryNum::convertToBinary(int decimal)
+BinaryNum BinaryNum::convertToBinary(long long decimal)
 {
+    // TODO: change bit size
+    const int setsize = 64;
+   
     BinaryNum result;
-    string binary = bitset<32>(decimal).to_string();
+    string binary = bitset<setsize>(decimal).to_string();
     reverse(binary.begin(), binary.end());
     result.setValue(binary);
     return result;
@@ -114,9 +120,10 @@ BinaryNum BinaryNum::convertToBinary(int decimal)
  * Can be called on a BinaryNum object to return the decimal representation of the object
  * @return the decemal representation of the object
  */
-int BinaryNum::convertToDec()
+long long BinaryNum::convertToDec()
+
 {
-    int sum = 0;
+    long long sum = 0;
     int sign = 1;
     string number = value;
     // handle negative numbers
@@ -127,13 +134,17 @@ int BinaryNum::convertToDec()
         b = b.complement();
         number = b.value;
     }
+
     // calculate the decimal number (sum)
-    int factor = 1;
+    long long factor = 1;  
+
     for (size_t i = 0; i < number.size(); ++i)
     {
         sum += (number[i] - '0') * factor;
+        cout << sum << " " << number[i] << " " <<  factor << endl;
         factor *= 2;
     }
+    cout << endl;
     return sum * sign;
 }
 
@@ -278,10 +289,10 @@ BinaryNum BinaryNum::operator*(const BinaryNum &other)
     BinaryNum t(this->value);
     BinaryNum o(other.value);
 
-    int tDec = t.convertToDec();
-    int oDec = o.convertToDec();
+    long long tDec = t.convertToDec();
+    long long oDec = o.convertToDec();
 
-    int result = tDec * oDec;
+    long long result = tDec * oDec;
     BinaryNum binResult = convertToBinary(result);
     return binResult;
 }
