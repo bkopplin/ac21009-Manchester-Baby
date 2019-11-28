@@ -4,6 +4,10 @@
 
 using namespace std;
 
+/**
+ * test's the functionality of the BinaryNum class
+ * Tests include complementing a number, adding, and substracting numbers.
+ */
 int main()
 {
     // BinaryNum wrong1("102");

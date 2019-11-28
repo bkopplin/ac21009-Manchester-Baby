@@ -187,7 +187,6 @@ BinaryNum BinaryNum::operator+(const BinaryNum &other)
 {
     size_t size_a = this->value.size();
     size_t size_b = other.value.size();
-    size_t min = (size_a > size_b) ? size_b : size_a;
     size_t max = (size_a > size_b) ? size_a : size_b;
     string c = "0"; // carry
     string sum = "";
