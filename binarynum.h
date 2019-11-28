@@ -9,12 +9,16 @@
 
 
 using namespace std;
-
+/**
+* This class describes a Binary numbers as it was used in the Manchester Baby. 
+* That means that the most significant bit is the right most bit.
+*/
 class BinaryNum
 {
 private:
-public:
     string value;
+
+public:
     BinaryNum();
     explicit BinaryNum(string value);
     void setValue(string value);
@@ -30,30 +34,46 @@ public:
     friend ostream &operator<<(ostream &output, const BinaryNum &n)
     {
         size_t i = 0;
-        do{
-            if (i % 4 == 0) {
+        do
+        {
+            if (i % 4 == 0)
+            {
                 output << ' ';
             }
             output << n.value[i];
             i++;
-        } while ( i < n.value.size());
+        } while (i < n.value.size());
         // output << n.value;
         return output;
     }
 };
 
+/**
+ * Default constructor.
+ * Set's the value of the Binary number to zero 
+ */
 BinaryNum::BinaryNum()
 {
     value = "00000000000000000000000000000000"; // 32
 }
 
+/**
+ * setter Constructor
+ * a string value can be passed to the constructor to set the initial value
+ * @param value the initial value of the constructor
+ */
 BinaryNum::BinaryNum(string value)
 {
     setValue(value);
 }
 
-void BinaryNum::setValue(string value) {
-string newValue = "";
+/**
+ * set's the value of the object to a new value
+ * @param value new value of the binary number
+ */
+void BinaryNum::setValue(string value)
+{
+    string newValue = "";
     if (value.size() == 0)
     {
         this->value = "0";
@@ -70,13 +90,20 @@ string newValue = "";
                 return;
             }
         }
-        else {
+        else
+        {
             newValue += value[i];
         }
     }
     this->value = newValue;
 }
 
+
+/**
+ * calculates a binary number in 2's complement form from the decimal that is passed as an argument
+ * @param decimal the decimal number to be converted
+ * @return the converted decimal number as a BinaryNum
+ */
 BinaryNum BinaryNum::convertToBinary(long long decimal)
 {
     // TODO: change bit size
@@ -89,7 +116,12 @@ BinaryNum BinaryNum::convertToBinary(long long decimal)
     return result;
 }
 
+/**
+ * Can be called on a BinaryNum object to return the decimal representation of the object
+ * @return the decemal representation of the object
+ */
 long long BinaryNum::convertToDec()
+
 {
     long long sum = 0;
     int sign = 1;
@@ -102,7 +134,10 @@ long long BinaryNum::convertToDec()
         b = b.complement();
         number = b.value;
     }
-    long long factor = 1;
+
+    // calculate the decimal number (sum)
+    long long factor = 1;  
+
     for (size_t i = 0; i < number.size(); ++i)
     {
         sum += (number[i] - '0') * factor;
@@ -113,8 +148,11 @@ long long BinaryNum::convertToDec()
     return sum * sign;
 }
 
-/*
-Negates a number (toggles all bits and adds one).
+/**
+*Complements a number according to 2's complement format.
+*This is done by toggling all bits and then adding one.
+*Note that this is the same as negating a number. 
+*@return a complemented copy of the BinaryNum object 
 */
 BinaryNum BinaryNum::complement()
 {
@@ -135,6 +173,10 @@ BinaryNum BinaryNum::complement()
     return temp + o;
 }
 
+/**
+ * checks if the binary number is negative
+ * @return true if the number is negative, else return false
+ */
 bool BinaryNum::isNegative()
 {
     if (value.back() == '1')
@@ -147,20 +189,24 @@ bool BinaryNum::isNegative()
     }
 }
 
+/**
+ * overload the + operator.
+ * This performs normal addition with binary numbers
+ * @return the result of the addition
+ */
 BinaryNum BinaryNum::operator+(const BinaryNum &other)
 {
     size_t size_a = this->value.size();
     size_t size_b = other.value.size();
-    size_t min = (size_a > size_b) ? size_b : size_a;
     size_t max = (size_a > size_b) ? size_a : size_b;
     string c = "0"; // carry
     string sum = "";
-    char a;
-    char b;
+    char a; // digit at position i from number a (this->value)
+    char b; // digit at position i from number b (other.value)
 
     for (size_t i = 0; i < max; i++)
     {
-        // TODO check for 2's complement format
+        // if one number isn't as long as the other number, treat position of that number as 0
         if (i >= size_a)
         {
             a = '0';
@@ -177,10 +223,7 @@ BinaryNum BinaryNum::operator+(const BinaryNum &other)
             b = other.value.at(i);
         }
 
-        if (i >= min)
-        {
-        }
-
+        // add a and b
         if (a == '0' && b == '0')
         {
             if (c == "0")
@@ -219,15 +262,16 @@ BinaryNum BinaryNum::operator+(const BinaryNum &other)
             }
         }
     }
-    // if (c == "1")
-    // {
-    //     sum += c;
-    // }
 
     BinaryNum result(sum);
     return result;
 }
 
+/**
+ * overload the - operator.
+ * This performs normal substraction with binary numbers
+ * @return the result of the substraction
+ */
 BinaryNum BinaryNum::operator-(const BinaryNum &other)
 {
     BinaryNum t(this->value);
@@ -235,6 +279,11 @@ BinaryNum BinaryNum::operator-(const BinaryNum &other)
     return t + o.complement();
 }
 
+/**
+ * overload the * operator.
+ * This performs normal multiplication with binary numbers
+ * @return the result of the multiplication
+ */
 BinaryNum BinaryNum::operator*(const BinaryNum &other)
 {
     BinaryNum t(this->value);
@@ -247,8 +296,5 @@ BinaryNum BinaryNum::operator*(const BinaryNum &other)
     BinaryNum binResult = convertToBinary(result);
     return binResult;
 }
-
-
-
 
 #endif // BINARYNUM_H
