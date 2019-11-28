@@ -7,6 +7,11 @@
 
 using namespace std;
 
+/**
+ * This class is responsible for managing the baby.
+ * One can imagine this class to be a person controlling the baby.
+ * It's creating an instance of the Processor, loads a program into the main store and then starts the fetch execute cycle
+ */
 class BabyManager {
     public:
     Processor * getProcessor() {return this->processor;};
@@ -22,8 +27,9 @@ BabyManager::BabyManager() {
     this->processor = new Processor();
 }
 
-/*
-reads in a program in Baby mashine code and stores it in the main store
+/**
+* reads in a program in Baby mashine code and stores it in the main store
+* @param filename the file where the mashine code is stored
 */
 void BabyManager::loadProgram(string filename) {
     ifstream input(filename, ios::in);
@@ -40,8 +46,8 @@ void BabyManager::loadProgram(string filename) {
     input.close();
 }
 
-/*
-* starts the Manchester Baby simulation
+/**
+* starts the Manchester Baby simulation (fetch-execute cycle)
 */
 void BabyManager::startSimulation() {
     this->processor->run();

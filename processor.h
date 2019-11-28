@@ -2,7 +2,6 @@
 #define PROCESSOR_H
 
 #include <iostream>
-#include "console.h"
 #include "mainstore.h"
 #include "binarynum.h"
 #include "processorregister.h"
@@ -10,10 +9,13 @@
 
 using namespace std;
 
+/**
+ * This class represents the processor of the Manchester Baby. 
+ * It runs the fetch-execute cycle and displays its state to the user
+ */
 class Processor
 {
 private:
-    Console *console;                      // I/O
     Mainstore *mainstore;                  // main store of the Baby
     ProcessorRegister *accumulator;        // holds results of arithmetic calculations
     ProcessorRegister *controlInstruction; //
@@ -23,7 +25,6 @@ private:
     void fetch();                       // fetch the line from the main store that the CI is pointing to
     void decodeOperandFetch();          // decodes the line
     void execute(BinaryNum, BinaryNum); // execute the command
-    void display();
 
     bool keepGoing = true;
     void showState(string);
@@ -45,24 +46,35 @@ public:
     }
 };
 
+/**
+ * default constructor
+ */
 Processor::Processor()
 {
-    console = new Console();
     mainstore = new Mainstore(32);
     accumulator = new ProcessorRegister();
     controlInstruction = new ProcessorRegister();
     presentInstruction = new ProcessorRegister();
 }
 
+/**
+ * deconstructor
+ */
 Processor::~Processor()
 {
-    delete console;
     delete mainstore;
     delete accumulator;
     delete controlInstruction;
     delete presentInstruction;
 }
 
+/**
+ * Show's the state of the Processor. 
+ * This includes what operation the Processor is doing (increment, fetch etc. ), state of accumulator, control instruction and present instruction.
+ * If the user is pressing enter, the next task in the fetch-execute circle will be performed.
+ * If the user presses 's' and enter, the state of the memory will be shown.
+ * this function should be called within the fetch-execute cycle.
+ */
 void Processor::showState(string state)
 {
     cout << "\x1B[36m" << state << "\033[0m\t\t" << endl;
@@ -70,27 +82,24 @@ void Processor::showState(string state)
     char c = cin.get();
     if (c == 's')
     {
-        cout<< "\x1B[46m" << *mainstore << "\033[0m\t\t" << endl;
-    }
-    else
-    {
-
+        cout << *mainstore << endl;
     }
 }
 
-//
+/**
+ * this functionruns the fetch execute cycle.
+ * Moreover it prints out the main store in the beginning and the result of the calculation in the end
+ */
 void Processor::run()
 {
     cout << endl << "------- Memmory --------" << endl << endl;
     cout << *mainstore << endl;
 
     int i = 0;
-    int c = 1; // color
     do
     {
-        c = i %10;
         cout << "----------" << endl
-             << "\x1B[4" << c << "mIteration: " << i << "\033[0m\t\t" << endl
+             << "\x1B[44mIteration: " << i << "\033[0m\t\t" << endl
              << "----------" << endl;
         increment();
         showState("increment");
@@ -98,26 +107,33 @@ void Processor::run()
         showState("fetch");
         decodeOperandFetch();
         showState("decode and operand fetch");
-        // display();
-        // showState("display");
         i++;
 
     } while (keepGoing);
 
     cout << *mainstore << endl;
+
+cout << "    \x1B[41m   \033[0m\t\t" << endl;
+cout << "   \x1B[41m     \033[0m\t\t" << endl;
+cout << "  \x1B[41m  HALT \033[0m\t\t" << endl;
+
     cout << "--------------------------------" << endl << endl;
     cout << "\t Result: " << accumulator->getValue().convertToDec() << endl << endl;
     cout << "\t (" << accumulator->getValue() << ")" << endl << endl;
     cout << "--------------------------------" << endl;
 }
 
-// increment the current Instruction
+/**
+ * increments the current instruction by one
+ */
 void Processor::increment()
 {
     controlInstruction->increment();
 }
 
-// fetch the line from the main store that the CI is pointing to, store in PI
+/**
+ *  fetch the line from the main store that the CI is pointing to, store in PI
+ */
 void Processor::fetch()
 {
     BinaryNum line;
@@ -127,7 +143,9 @@ void Processor::fetch()
     presentInstruction->setValue(line);
 }
 
-// decodes the line
+/** 
+ * decodes the line
+ */
 void Processor::decodeOperandFetch()
 {
     BinaryNum lineToDecode;
@@ -142,7 +160,9 @@ void Processor::decodeOperandFetch()
     showState("execute");
 }
 
-// execute the command
+/**
+ *  execute the command
+ */
 void Processor::execute(BinaryNum operand, BinaryNum opcode)
 {
     string instruction = opcode.getValue();
@@ -150,8 +170,6 @@ void Processor::execute(BinaryNum operand, BinaryNum opcode)
     cout << "\x1B[35mDecode Present Instruction\033[0m\t\t" << endl
          << "\tOperand: " << operand << " (memory location " << location << ")" << endl
          << "\tOpcode: " << opcode << " | instruction " << opcode.convertToDec() << " -> ";
-
-    // cout << "-- Instruction: " << instruction;
 
     if (instruction == "0000") // JMP - set CI to content of store location
     {
@@ -218,11 +236,6 @@ void Processor::execute(BinaryNum operand, BinaryNum opcode)
         cerr << "Error, operand not definded" << endl;
     }
     cout << endl;
-}
-
-void Processor::display()
-{
-
 }
 
 #endif
