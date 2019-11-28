@@ -3,6 +3,8 @@
 #include <string>
 #include <math.h>
 #include <iostream>
+#include <bitset>
+#include <algorithm>
 
 using namespace std;
 
@@ -18,8 +20,10 @@ public:
     BinaryNum complement(); // same as multiplying the number by -1
     BinaryNum operator+(const BinaryNum &other);
     BinaryNum operator-(const BinaryNum &other);
+    BinaryNum operator*(const BinaryNum &other);
     bool isNegative();
     int convertToDec();
+    BinaryNum convertToBinary(int);
 
     friend ostream &operator<<(ostream &output, const BinaryNum &n)
     {
@@ -69,6 +73,15 @@ string newValue = "";
         }
     }
     this->value = newValue;
+}
+
+BinaryNum BinaryNum::convertToBinary(int decimal)
+{
+    BinaryNum result;
+    string binary = bitset<32>(decimal).to_string();
+    reverse(binary.begin(), binary.end());
+    result.setValue(binary);
+    return result;
 }
 
 int BinaryNum::convertToDec()
@@ -214,4 +227,21 @@ BinaryNum BinaryNum::operator-(const BinaryNum &other)
     BinaryNum o(other.value);
     return t + o.complement();
 }
+
+BinaryNum BinaryNum::operator*(const BinaryNum &other)
+{
+    BinaryNum t(this->value);
+    BinaryNum o(other.value);
+
+    int tDec = t.convertToDec();
+    int oDec = o.convertToDec();
+
+    int result = tDec * oDec;
+    BinaryNum binResult = convertToBinary(result);
+    return binResult;
+}
+
+
+
+
 #endif // BINARYNUM_H
