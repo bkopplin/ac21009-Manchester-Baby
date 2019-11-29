@@ -54,7 +54,10 @@ public:
  */
 BinaryNum::BinaryNum()
 {
-    value = "00000000000000000000000000000000"; // 32
+    // value = "00000000000000000000000000000000"; // 32
+    for (int i = 0; i < registerwidth; i++) {
+        value += "0";
+    }
 }
 
 /**
@@ -107,7 +110,7 @@ void BinaryNum::setValue(string value)
 BinaryNum BinaryNum::convertToBinary(long long decimal)
 {
     // TODO: change bit size
-    const int setsize = 64;
+    const int setsize = 32;
    
     BinaryNum result;
     string binary = bitset<setsize>(decimal).to_string();
