@@ -8,11 +8,13 @@
 
 using namespace std;
 
+/**
+ * This class represents the mainstore of the Baby. An array is used as the underlaying datastructure.
+ */
 class Mainstore
 {
 private:
     int size;
-    // ALTERNATIVE: vector<BinaryNum> *grid;
     BinaryNum *grid;
 
 public:
@@ -26,34 +28,53 @@ public:
     {
         for (int i = 0; i < s.size; i++)
         {
+            cout << "\x1B[40m";
             if (i < 10)
             {
                 output << " ";
             }
-            output << i << " " << s.grid[i] << endl;
+            output << i << " " << s.grid[i] << "\033[0m\t\t" << endl;
         }
         return output;
     }
 };
 
+/**
+ * default constructor
+ * Set's the size of the main store to 32 by default
+ */
 Mainstore::Mainstore()
 {
     size = registerwidth;
-    cout << "regwidth" << size << endl;
+    //cout << "regwidth" << size << endl;
     // ALTERNATIVE: grid = new vector<BinaryNum>(32);
     grid = new BinaryNum[size];
 }
 
+/**
+ * setter constructor
+ * Set's the size of the constructor the the value passed to the constructor
+ * @param store_size the size of the main store (line numbers)
+ */
 Mainstore::Mainstore(int store_size)
 {
     size = store_size;
     grid = new BinaryNum[size];
 }
 
+/**
+ * destructor
+ */
 Mainstore::~Mainstore()
 {
+    delete grid;
 }
 
+/**
+ * returns the line specified by location.
+ * @param location the location as a decimal number that should be accessed
+ * @return the binary number stored at the specified location
+ */
 BinaryNum Mainstore::getLine(int location)
 {
     if (location < 1 || location > size - 1)
@@ -64,6 +85,11 @@ BinaryNum Mainstore::getLine(int location)
     return grid[location];
 }
 
+/**
+ * sets the specified line to the value of newNumber
+ * @param location the location where that should be written to
+ * @param newNumber the value that should be stored at the location
+ */
 void Mainstore::setLine(int location, BinaryNum newNumber)
 {
     if (location < 0 || location > size - 1)
