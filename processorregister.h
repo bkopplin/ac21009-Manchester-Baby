@@ -1,3 +1,9 @@
+// Alina Littek: 180016182
+// Bjarne Kopplin: 180016866
+// Pui-Hin Vincent Lee: 180006178
+// Jacque Nalwanga: 180004882
+// Andrew Spence: 170018476
+
 #ifndef PROCESSORREGISTER_H
 #define PROCESSORREGISTER_H
 
@@ -26,7 +32,12 @@ public:
  */ 
 ProcessorRegister::ProcessorRegister()
 {
-    BinaryNum num("0000 0000 0000 0000 0000 0000 0000 0000");
+    string value;
+    for (int i = 0; i < registerwidth; i++) 
+    {
+        value += "0";
+    }
+    BinaryNum num(value);
     this->value = num;
 }
 
@@ -42,7 +53,12 @@ ProcessorRegister::~ProcessorRegister()
  */
 void ProcessorRegister::increment()
 {
-    BinaryNum one("1000 0000 0000 0000 0000 0000 0000 0000");
+    string value = "1";
+    for (int i = 0; i < registerwidth-1; i++) 
+    {
+        value += "0";
+    }
+    BinaryNum one(value);
     this->value = this->value + one;
 }
 
