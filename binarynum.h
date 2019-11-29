@@ -1,3 +1,9 @@
+// Alina Littek: 180016182
+// Bjarne Kopplin: 180016866
+// Pui-Hin Vincent Lee: 180006178
+// Jacque Nalwanga: 180004882
+// Andrew Spence: 170018476
+
 #ifndef BINARYNUM_H
 #define BINARYNUM_H
 #include <string>
@@ -9,6 +15,7 @@
 
 
 using namespace std;
+
 /**
 * This class describes a Binary numbers as it was used in the Manchester Baby. 
 * That means that the most significant bit is the right most bit.
@@ -43,7 +50,7 @@ public:
             output << n.value[i];
             i++;
         } while (i < n.value.size());
-        // output << n.value;
+
         return output;
     }
 };
@@ -54,8 +61,8 @@ public:
  */
 BinaryNum::BinaryNum()
 {
-    // value = "00000000000000000000000000000000"; // 32
-    for (int i = 0; i < registerwidth; i++) {
+    for (int i = 0; i < registerwidth; i++) 
+    {
         value += "0";
     }
 }
@@ -131,6 +138,7 @@ long long BinaryNum::convertToDec()
     long long sum = 0;
     int sign = 1;
     string number = value;
+
     // handle negative numbers
     if (number.back() == '1')
     {
@@ -156,10 +164,10 @@ long long BinaryNum::convertToDec()
 }
 
 /**
-*Complements a number according to 2's complement format.
-*This is done by toggling all bits and then adding one.
-*Note that this is the same as negating a number. 
-*@return a complemented copy of the BinaryNum object 
+* Complements a number according to 2's complement format.
+* This is done by toggling all bits and then adding one.
+* Note that this is the same as negating a number. 
+* @return a complemented copy of the BinaryNum object 
 */
 BinaryNum BinaryNum::complement()
 {
