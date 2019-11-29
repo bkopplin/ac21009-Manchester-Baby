@@ -3,6 +3,7 @@
 
 #include "binarynum.h"
 #include "processor.h"
+//#include "config.hpp"
 #include <fstream>
 
 using namespace std;
@@ -38,6 +39,12 @@ void BabyManager::loadProgram(string filename) {
         string line;
         int l = 0;
         while(getline(input, line)) {
+            if ((int)line.size() != registerwidth) 
+            {
+                cerr << endl << "***** Error:  Line: " << l << " doesn't have the same length as the register width." << endl
+                << "***** Should be of length: " << registerwidth << endl << endl;
+                exit(-1);
+            }
             BinaryNum thisLine(line);
             processor->getMainStore()->setLine(l, thisLine);
             l++;

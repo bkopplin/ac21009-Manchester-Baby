@@ -109,13 +109,15 @@ void BinaryNum::setValue(string value)
  */
 BinaryNum BinaryNum::convertToBinary(long long decimal)
 {
-    // TODO: change bit size
-    const int setsize = 32;
+    const int setsize = 128;
    
     BinaryNum result;
     string binary = bitset<setsize>(decimal).to_string();
     reverse(binary.begin(), binary.end());
-    result.setValue(binary);
+    
+    //only get the number of bits for the registerwidth
+    string newBinary = binary.substr(0, registerwidth);
+    result.setValue(newBinary);
     return result;
 }
 
@@ -144,10 +146,12 @@ long long BinaryNum::convertToDec()
     for (size_t i = 0; i < number.size(); ++i)
     {
         sum += (number[i] - '0') * factor;
-        cout << sum << " " << number[i] << " " <<  factor << endl;
         factor *= 2;
     }
-    cout << endl;
+    if (number.back() == '1') 
+    {
+        sign *= -1;
+    }
     return sum * sign;
 }
 
