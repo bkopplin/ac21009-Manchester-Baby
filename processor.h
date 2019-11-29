@@ -79,11 +79,21 @@ void Processor::showState(string state)
 {
     cout << "\x1B[36m" << state << "\033[0m\t\t" << endl;
     cout << *this << endl;
-    char c = cin.get();
-    if (c == 's')
+    char c = ' ';
+    do
     {
-        cout << *mainstore << endl;
-    }
+        c = cin.get();
+        if (c == 's')
+        {
+            cout << *mainstore << endl;
+            
+        } else if (c == '\n') {
+            break;
+        }
+        cin.clear();
+        cin.ignore();
+        
+    } while (true);
 }
 
 /**
@@ -92,7 +102,9 @@ void Processor::showState(string state)
  */
 void Processor::run()
 {
-    cout << endl << "------- Memmory --------" << endl << endl;
+    cout << endl
+         << "------- Memmory --------" << endl
+         << endl;
     cout << *mainstore << endl;
 
     int i = 0;
@@ -111,15 +123,18 @@ void Processor::run()
 
     } while (keepGoing);
 
+    cout << "    \x1B[41m   \033[0m\t\t" << endl;
+    cout << "   \x1B[41m     \033[0m\t\t" << endl;
+    cout << "  \x1B[41m  HALT \033[0m\t\t" << endl;
+
     cout << *mainstore << endl;
 
-cout << "    \x1B[41m   \033[0m\t\t" << endl;
-cout << "   \x1B[41m     \033[0m\t\t" << endl;
-cout << "  \x1B[41m  HALT \033[0m\t\t" << endl;
-
-    cout << "--------------------------------" << endl << endl;
-    //cout << "\t Result: " << accumulator->getValue().convertToDec() << endl << endl;
-    cout << "\t Result: " << accumulator->getValue() << endl << endl;
+    cout << "--------------------------------" << endl
+         << endl;
+    cout << "\t Result:  " << accumulator->getValue().convertToDec() << endl
+         << endl;
+    cout << "\t[" << accumulator->getValue() << " ]" << endl
+         << endl;
     cout << "--------------------------------" << endl;
 }
 
@@ -221,15 +236,14 @@ void Processor::execute(BinaryNum operand, BinaryNum opcode)
         cout << "STP" << endl;
         keepGoing = false;
     }
-    else if(instruction == "0001") // new instruction: MUL - multiply content of store location with CI
+    else if (instruction == "0001") // new instruction: MTP - multiply content of store location with CI
     {
-        cout << "MUL" << endl;
+        cout << "MTP" << endl;
         accumulator->setValue(accumulator->getValue() * mainstore->getLine(location));
     }
-    else if(instruction == "1001") // new instruction
+    else if (instruction == "1001") // new instruction
     {
         cout << "---" << endl;
-
     }
     else
     {
