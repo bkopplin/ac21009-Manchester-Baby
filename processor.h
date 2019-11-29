@@ -1,3 +1,10 @@
+// Alina Littek: 180016182
+// Bjarne Kopplin: 180016866
+// Pui-Hin Vincent Lee: 180006178
+// Jacque Nalwanga: 180004882
+// Andrew Spence: 170018476
+
+
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
@@ -125,7 +132,7 @@ void Processor::run()
 
     cout << "    \x1B[41m   \033[0m\t\t" << endl;
     cout << "   \x1B[41m     \033[0m\t\t" << endl;
-    cout << "  \x1B[41m  HALT \033[0m\t\t" << endl;
+    cout << "  \x1B[41m  HALT \033[0m\t\t" << endl << endl;
 
     cout << *mainstore << endl;
 
@@ -159,7 +166,7 @@ void Processor::fetch()
 }
 
 /** 
- * decodes the line
+ * decodes the line into operand and opcode
  */
 void Processor::decodeOperandFetch()
 {
@@ -176,7 +183,7 @@ void Processor::decodeOperandFetch()
 }
 
 /**
- *  execute the command
+ *  execute the commands
  */
 void Processor::execute(BinaryNum operand, BinaryNum opcode)
 {
@@ -190,13 +197,13 @@ void Processor::execute(BinaryNum operand, BinaryNum opcode)
     {
         cout << "JMP" << endl;
         // CI = S
-        controlInstruction->setValue(mainstore->getLine(location));
+        controlInstruction->setValue(operand);
     }
     else if (instruction == "1000") // JRP - add content of store location to CI
     {
         cout << "JRP" << endl;
         // CI = CI + S
-        controlInstruction->setValue(controlInstruction->getValue() + mainstore->getLine(location));
+        controlInstruction->setValue(controlInstruction->getValue() + operand);
     }
     else if (instruction == "0100") //  LDN -load accumulator with negative form of store content
     {
@@ -241,7 +248,7 @@ void Processor::execute(BinaryNum operand, BinaryNum opcode)
         cout << "MTP" << endl;
         accumulator->setValue(accumulator->getValue() * mainstore->getLine(location));
     }
-    else if (instruction == "1001") // new instruction
+    else if (instruction == "1001") // new instruction - to extend
     {
         cout << "---" << endl;
     }
