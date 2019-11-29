@@ -4,6 +4,7 @@
 #include "binarynum.h"
 #include <array>
 #include <vector>
+#include "config.hpp"
 
 using namespace std;
 
@@ -37,7 +38,8 @@ public:
 
 Mainstore::Mainstore()
 {
-    size = 32;
+    size = registerwidth;
+    cout << "regwidth" << size << endl;
     // ALTERNATIVE: grid = new vector<BinaryNum>(32);
     grid = new BinaryNum[size];
 }

@@ -12,8 +12,7 @@ void usageMessage()
 
 void welcomeMessage()
 {
-    cout << "press 'Enter' to go to the next step, 's' to see the store"
-         << endl;
+    cout << "press 'Enter' to go to the next step, 's' to see the store" << endl;
 }
 
 int main(int argc, char **argv)

@@ -48,7 +48,7 @@ public:
 Processor::Processor()
 {
     console = new Console();
-    mainstore = new Mainstore(32);
+    mainstore = new Mainstore(registerwidth);
     accumulator = new ProcessorRegister();
     controlInstruction = new ProcessorRegister();
     presentInstruction = new ProcessorRegister();
