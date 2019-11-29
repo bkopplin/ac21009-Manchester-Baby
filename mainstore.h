@@ -33,7 +33,7 @@ public:
             {
                 output << " ";
             }
-            output << i << " " << s.grid[i] << "\033[0m\t\t" << endl;
+            output << i << " " << s.grid[i] << " (" << s.grid[i].convertToDec() << ")" << "\033[0m\t\t" << endl;
         }
         return output;
     }

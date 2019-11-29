@@ -7,7 +7,8 @@ using namespace std;
 
 void usageMessage()
 {
-    cerr << "USAGE: <inputfile> <register width> <number of addresses>" << endl;
+    cerr << "USAGE: <inputfile> <register width*> <number of addresses*>" << endl
+    << "Where values with a '*' are optional. register width and number of address are set to 32 by default" << endl;
 }
 
 void welcomeMessage()
