@@ -46,8 +46,8 @@ public:
 
     friend ostream &operator<<(ostream &output, const Processor &p)
     {
-        output << "Accumulator: \t\t" << p.accumulator->getValue() << endl
-               << "Control Instruction: \t" << p.controlInstruction->getValue() << endl
+        output << "Accumulator: \t\t" << p.accumulator->getValue() << " (" << p.accumulator->getValue().convertToDec() << ")" << endl
+               << "Control Instruction: \t" << p.controlInstruction->getValue() << " (" << p.controlInstruction->getValue().convertToDec() << ")" << endl
                << "Present Instruction: \t" << p.presentInstruction->getValue() << endl;
         return output;
     }
@@ -125,7 +125,7 @@ void Processor::run()
         fetch();
         showState("fetch");
         decodeOperandFetch();
-        showState("decode and operand fetch");
+        
         i++;
 
     } while (keepGoing);
@@ -160,7 +160,7 @@ void Processor::fetch()
 {
     BinaryNum line;
     int location = controlInstruction->getValue().convertToDec();
-
+    cout << "fetched location " << location << endl;
     line = mainstore->getLine(location);
     presentInstruction->setValue(line);
 }
@@ -177,7 +177,7 @@ void Processor::decodeOperandFetch()
     BinaryNum operand(lineToDecode.getValue().substr(0, 13));
     //BinaryNum opcode(lineToDecode.getValue().substr(13, 3));
     BinaryNum opcode(lineToDecode.getValue().substr(13, 4));
-
+    showState("decode and operand fetch");
     execute(operand, opcode);
     showState("execute");
 }
@@ -196,8 +196,11 @@ void Processor::execute(BinaryNum operand, BinaryNum opcode)
     if (instruction == "0000") // JMP - set CI to content of store location
     {
         cout << "JMP" << endl;
+        cout << "jump to location " << location << endl;
         // CI = S
+
         controlInstruction->setValue(operand);
+        cout << "control instruction value:" <<  controlInstruction->getValue() << endl;
     }
     else if (instruction == "1000") // JRP - add content of store location to CI
     {
